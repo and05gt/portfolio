@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight, Code2 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Project } from '@/data/projects';
@@ -18,9 +19,9 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
       viewport={{ once: true, margin: '-80px' }}
       transition={{ duration: 0.5, delay: (index % 3) * 0.1 }}
       className="group relative flex flex-col rounded-3xl bg-(--surface) border border-(--border-sub) p-6 sm:p-8 transition-all duration-300 hover:border-(--border-hover) hover:shadow-[0_0_30px_rgba(139,30,45,0.12)]">
-      <div className="relative aspect-16/10 w-full overflow-hidden rounded-2xl bg-(--surface-sub) border border-(--border-sub) mb-8 flex flex-col justify-between p-5 transition-transform duration-500 group-hover:scale-[1.01]">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
+      <div className="relative aspect-16/10 w-full overflow-hidden rounded-2xl bg-(--surface-sub) border border-(--border-sub) mb-8 flex flex-col">
+        <div className="relative z-10 flex items-center justify-between px-4 py-2.5 bg-[#0D0F14]/90 backdrop-blur-sm border-b border-(--border-sub)">
+          <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-(--border-hover)" />
             <span className="w-2.5 h-2.5 rounded-full bg-(--border-hover)" />
             <span className="w-2.5 h-2.5 rounded-full bg-(--border-hover)" />
@@ -30,20 +31,15 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
           </span>
         </div>
 
-        <div className="flex flex-col items-center justify-center text-center px-4">
-          <div className="w-12 h-12 rounded-xl bg-(--accent-sub) border border-(--accent-border) flex items-center justify-center mb-3 text-(--accent) text-sm font-semibold">
-            UI
-          </div>
-          <p className="text-xs font-mono text-(--content-muted)">
-            Preview Mockup Placeholder
-          </p>
-        </div>
-
-        <div className="flex items-center justify-between text-[11px] font-mono text-(--content-muted)">
-          <span>STATUS: PRODUCTION</span>
-          <span className="group-hover:text-(--accent) transition-colors">
-            LIVE DEMO ↗
-          </span>
+        <div className="relative grow w-full overflow-hidden">
+          <Image
+            src={project.imageUrl}
+            alt={`${project.title} homepage screenshot`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+          />
+          <div className="absolute inset-0 bg-linear-to-t from-(--surface)/40 via-transparent to-transparent opacity-60 group-hover:opacity-20 transition-opacity duration-300" />
         </div>
       </div>
 
@@ -65,16 +61,15 @@ const ProjectCard = ({ project, index }: ProjectCardProps) => {
         </div>
 
         <div className="flex items-center gap-3 pt-4 border-t border-(--border-sub)">
-          {project.demoUrl && (
-            <Link
-              href={project.demoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-(--accent) text-(--content-primary) text-xs font-medium hover:bg-(--accent-hover) transition-colors">
-              Live Demo
-              <ArrowUpRight className="w-3.5 h-3.5" />
-            </Link>
-          )}
+          <Link
+            href={`/projects/${project.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-(--accent) text-(--content-primary) text-xs font-medium hover:bg-(--accent-hover) transition-colors">
+            View More
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </Link>
+
           {project.githubUrl && (
             <Link
               href={project.githubUrl}
